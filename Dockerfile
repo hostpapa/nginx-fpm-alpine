@@ -97,6 +97,9 @@ RUN set -eux \
         nginx \
 # Move http.d to conf.d to match other Nginx setups and scripts
     && mv /etc/nginx/http.d /etc/nginx/conf.d \
+# Replace references to http.d with conf.d in main Nginx config installed by default
+# This allows this image to function on its own even though most will override nginx.conf entirely
+    && sed -i 's/http.d/conf.d/g' /etc/nginx/nginx.conf \
     \
 # Bring in gettext so we can get `envsubst`, then throw
 # the rest away. To do this, we need to install `gettext`

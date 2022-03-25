@@ -40,6 +40,15 @@ To build localy, run
 docker build -t hostpapa/nginx-fpm-alpine .
 ```
 
+You can run this image in isolation to test it with
+
+```
+docker run -p 8080:80 hostpapa/nginx-fpm-alpine
+```
+
+Once running in the foreground, you can hit http://localhost:8080/ and receive a
+`404 Not Found` as that's all the image returns out of the box.
+
 ## How to use this image
 
 This image does _not_ have what's needed to satisfy SSL requests. It's intended
