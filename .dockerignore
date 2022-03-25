@@ -1,0 +1,21 @@
+# Start with ignoring everything
+*
+
+# ONLY allow the folders in that we desire
+# !templates
+
+**/.DS_Store
+
+## Further safety within
+# Always exclude Git related files & folders. Git History
+# could be source of leak
+**/.git
+**/.gitignore
+**/.gitkeep
+
+# Avoid possible secrets in case they're added
+**/.env
+**/.env.*
+
+# Exclude any log files that may have been generated
+**/*.log
