@@ -61,3 +61,4 @@ hosting environment.
 - [ ] Flesh this out with what needs to be set up
 - [ ] `example_configs`
 - [ ] Note about environment variables in FPM config
+- [ ] Add documentation on the entrypoints folder & scripts usage
