@@ -2,7 +2,10 @@
 *
 
 # ONLY allow the folders in that we desire
-# !templates
+!entrypoints
+!docker-entrypoint.sh
+!supervisord.conf
+!start-server.sh
 
 **/.DS_Store
 
