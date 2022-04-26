@@ -56,6 +56,12 @@ to sit behind an SSL prox of some sort such as our [Nginx SSL
 Proxy](https://github.com/hostpapa/nginx-ssl-proxy) or the ingress of your
 hosting environment.
 
+### PHP Configuration
+
+TODO: What to setup, where to copy
+
+### Nginx Configuration
+
 ### Configuration
 
 - [ ] Flesh this out with what needs to be set up

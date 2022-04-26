@@ -32,7 +32,7 @@ RUN set -eux; \
 # Ghostscript is required for rendering PDF previews
         ghostscript \
 # Alpine package for "imagemagick" contains ~120 .so files, see: https://github.com/docker-library/wordpress/pull/497
-        imagemagick \
+        # imagemagick \
         tzdata \
         curl \
         ca-certificates \
@@ -46,7 +46,7 @@ RUN set -ex; \
     apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         freetype-dev \
-        imagemagick-dev \
+        # imagemagick-dev \
         libjpeg-turbo-dev \
         libpng-dev \
         libwebp-dev \
