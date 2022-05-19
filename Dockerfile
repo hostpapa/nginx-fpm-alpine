@@ -121,7 +121,11 @@ RUN set -eux \
     && mv /tmp/envsubst /usr/local/bin/ \
     \
 # Make the entrypoint scripts folder
-    && mkdir /docker-entrypoint.d
+    && mkdir /docker-entrypoint.d \
+    \
+# forward request and error logs to docker log collector
+    && ln -sf /dev/stdout /var/log/nginx/access.log \
+    && ln -sf /dev/stderr /var/log/nginx/error.log
 
 # Copy scripts into entrypoints folder and set script
 COPY ./docker-entrypoint.sh /
