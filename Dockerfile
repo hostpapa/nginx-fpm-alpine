@@ -127,6 +127,12 @@ RUN set -eux \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log
 
+# Required fcgi for php-fpm-healthcheck
+RUN apk add --no-cache fcgi
+
+# Copy the healthcheck
+COPY ./healthcheck/php-fpm-healthcheck /usr/local/bin/
+
 # Copy scripts into entrypoints folder and set script
 COPY ./docker-entrypoint.sh /
 COPY ./entrypoints/* /docker-entrypoint.d/
