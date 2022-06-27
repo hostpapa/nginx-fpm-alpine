@@ -6,6 +6,7 @@
 !docker-entrypoint.sh
 !supervisord.conf
 !start-server.sh
+!healthcheck
 
 **/.DS_Store
 
