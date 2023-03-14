@@ -24,7 +24,7 @@
 # have been combined into this image from a functionality perspective (nginx
 # templates with envsubst, etc).
 ##
-FROM php:8.0-fpm-alpine
+FROM php:7.4.0-fpm-alpine
 
 # Persistent dependencies
 RUN set -eux; \
@@ -51,7 +51,7 @@ RUN set -ex; \
         libpng-dev \
         libwebp-dev \
         libzip-dev \
-        php8-pecl-ast \
+        php7-pecl-ast \
         icu-dev \
     ; \
     \
@@ -95,8 +95,6 @@ RUN set -eux \
     && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \
     && apk add --no-cache \
         nginx \
-# Move http.d to conf.d to match other Nginx setups and scripts
-    && mv /etc/nginx/http.d /etc/nginx/conf.d \
 # Replace references to http.d with conf.d in main Nginx config installed by default
 # This allows this image to function on its own even though most will override nginx.conf entirely
     && sed -i 's/http.d/conf.d/g' /etc/nginx/nginx.conf \
