@@ -24,7 +24,7 @@
 # have been combined into this image from a functionality perspective (nginx
 # templates with envsubst, etc).
 ##
-FROM php:8.0-fpm-alpine
+FROM php:8.2.5-fpm-alpine
 
 # Persistent dependencies
 RUN set -eux; \
