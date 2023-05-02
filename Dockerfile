@@ -51,7 +51,7 @@ RUN set -ex; \
         libpng-dev \
         libwebp-dev \
         libzip-dev \
-        php8-pecl-ast \
+        php82-pecl-ast \
         icu-dev \
     ; \
     \
