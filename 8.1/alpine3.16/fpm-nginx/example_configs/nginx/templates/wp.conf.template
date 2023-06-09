@@ -1,0 +1,86 @@
+# Serve ONLY in HTTP as SSL Termination happens before hitting this container
+server {
+    # Set up this container to listen for ANYTHING on port 80 with NO server name defined
+    listen ${PORT} default_server;
+    listen [::]:${PORT};
+
+    ## Your only path reference.
+    root /var/www/html/web;
+
+    ## This should be in your http block and if it is, it's not needed here.
+    index index.php;
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+     # Prevent PHP scripts from being executed inside the uploads folder.
+    location ~* /app/uploads/.*.php$ {
+        deny all;
+    }
+
+    location / {
+        # This is cool because no php is touched for static content.
+        # include the "?$args" part so non-default permalinks doesn't break when using query string
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        include /etc/nginx/fastcgi_params;
+
+        fastcgi_pass ${FPM_HOST}:${FPM_PORT};
+        fastcgi_keep_conn on;
+        fastcgi_index index.php;
+        fastcgi_param HTTPS on;
+        fastcgi_param HTTP_SCHEME https;
+        fastcgi_buffers 16 16k;
+        fastcgi_buffer_size 32k;
+
+        fastcgi_param   SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+        expires max;
+        log_not_found off;
+    }
+
+    # Force trailing slash
+    set $force_slash 1;
+
+    if ($request_method = POST) {
+        set $force_slash 0;
+    }
+
+    if ($request_method = PUT) {
+        set $force_slash 0;
+    }
+
+    if ($request_method = DELETE) {
+        set $force_slash 0;
+    }
+
+    if ($request_method = PATCH) {
+        set $force_slash 0;
+    }
+
+    if ($request_method = OPTIONS) {
+        set $force_slash 0;
+    }
+
+    if ($force_slash) {
+        rewrite ^([^.]*[^/])$ $1/ permanent;
+    }
+
+    if (!-e $request_filename) {
+        rewrite /wp-admin$ $scheme://$host$uri/ permanent;
+        rewrite ^(/[^/]+)?(/wp-.*) /wp$2 last;
+        rewrite ^(/[^/]+)?(/.*.php) /wp$2 last;
+    }
+}
