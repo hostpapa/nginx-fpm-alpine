@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-[ -f versions.json ] # run "versions.sh" first
+# Check the existence of versions.json file
+if [ ! -f versions.json ]; then
+    echo "versions.json file does not exist."
+fi
 
 jqt='.jq-template.awk'
 if [ -n "${BASHBREW_SCRIPTS:-}" ]; then
