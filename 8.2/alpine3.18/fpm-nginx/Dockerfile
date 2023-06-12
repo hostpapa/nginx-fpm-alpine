@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM php:8.2.6-fpm-alpine3.16
+FROM php:8.2.6-fpm-alpine3.18
 
 # Persistent dependencies
 RUN set -eux; \
@@ -97,6 +97,11 @@ RUN set -eux \
 
 # Required fcgi for php-fpm-healthcheck
 RUN apk add --no-cache fcgi
+
+# Assign Host User
+RUN apk add --no-cache shadow \
+    && usermod -u 1000 www-data \
+    && groupmod -g 1000 www-data
 
 # Copy the healthcheck
 COPY ./healthcheck/php-fpm-healthcheck /usr/local/bin/

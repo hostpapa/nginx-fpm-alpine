@@ -98,6 +98,11 @@ RUN set -eux \
 # Required fcgi for php-fpm-healthcheck
 RUN apk add --no-cache fcgi
 
+# Assign Host User
+RUN apk add --no-cache shadow \
+    && usermod -u 1000 www-data \
+    && groupmod -g 1000 www-data
+
 # Copy the healthcheck
 COPY ./healthcheck/php-fpm-healthcheck /usr/local/bin/
 
