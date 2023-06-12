@@ -3,7 +3,7 @@ set -Eeuo pipefail
 
 # Check the existence of versions.json file
 if [ ! -f versions.json ]; then
-    echo "versions.json file does not exist."
+	echo "versions.json file does not exist."
 fi
 
 jqt='.jq-template.awk'
@@ -41,16 +41,16 @@ for version; do
 	fi
 
 	variants="$(jq -r '.[env.version].variants | map(@sh) | join(" ")' versions.json)"
-    eval "variants=( $variants )"
+	eval "variants=( $variants )"
 
-    phpVersion="$(jq -r '.[env.version] | .version' versions.json)"
-    eval "phpVersion=( $phpVersion )"
+	phpVersion="$(jq -r '.[env.version] | .version' versions.json)"
+	eval "phpVersion=( $phpVersion )"
 
 	for dir in "${variants[@]}"; do
 		suite="$(dirname "$dir")" # alpine
 		variant="$(basename "$dir")" # fpm-nginx
-        phpMajorVersion="${version//.}" # 80
-        export suite variant phpMajorVersion phpVersion
+		phpMajorVersion="${version//.}" # 80
+		export suite variant phpMajorVersion phpVersion
 
 		alpineVer="${suite#alpine}" # "3.12", etc
 		if [ "$suite" != "$alpineVer" ]; then
