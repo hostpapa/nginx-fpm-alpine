@@ -27,6 +27,4 @@ jobs:
       - name: Apply Templates
         run: ./apply-templates.sh
       - name: Check Git Status
-        run: |
-          status="$(git status --short)"
-          [ -z "$status" ]
+        run: ./check-git-status.sh
