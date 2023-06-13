@@ -33,6 +33,8 @@ Tagged versions of this image are automatically built, tagged and pushed to
 [Github Container Registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry)
 and are available in the **packages** area of this repository.
 
+**_Note_**: This setup assumes `gawk`. You must have `gawk` installed on your environment for this repo to work successfully.
+
 This repository and the built images follow [Semantic
 Versioning](https://semver.org/).
 
