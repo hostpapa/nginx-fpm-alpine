@@ -1,7 +1,15 @@
 name: Verify Templating
 
 on:
-  pull_request:
+  pull_request
+
+# Ensure existing runs are cancelled automatically if still in progress when a
+# new one commit is pushed to this pull request. This is scoped to the branch
+# and workflow name so that we can run multiple workflows on a branch but
+# ensure they're exclusive with regards to concurrency.
+concurrency:
+  group: ${{ github.head_ref }}-${{ github.workflow }}
+  cancel-in-progress: true
 
 defaults:
   run:
@@ -11,6 +19,12 @@ jobs:
   apply-templates:
     name: Check For Uncomitted Changes
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
     steps:
       - uses: actions/checkout@v3
       - name: Apply Templates
