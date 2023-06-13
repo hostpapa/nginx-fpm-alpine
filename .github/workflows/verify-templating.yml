@@ -24,6 +24,7 @@ jobs:
       - name: Apply Templates
         run: ./apply-templates.sh
   check-git-status:
+    needs: apply-templates
     name: Check For Uncomitted Changes
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
