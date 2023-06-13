@@ -14,8 +14,8 @@ updates:
       interval: "daily"
     ignore:
       # For all images, ignore all major updates
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: "php"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
     reviewers:
       - "hostpapa/eng-enablement"
   # Maintain dependencies for 8.1
@@ -25,8 +25,8 @@ updates:
       interval: "daily"
     ignore:
       # For all images, ignore all major updates
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: "php"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
     reviewers:
       - "hostpapa/eng-enablement"
   # Maintain dependencies for 8.2
@@ -36,7 +36,7 @@ updates:
       interval: "daily"
     ignore:
       # For all images, ignore all major updates
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: "php"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
     reviewers:
       - "hostpapa/eng-enablement"
