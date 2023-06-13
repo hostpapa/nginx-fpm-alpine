@@ -7,3 +7,30 @@ updates:
       interval: "daily"
     reviewers:
       - "hostpapa/eng-enablement"
+  # Maintain dependencies for 8.0
+  - package-ecosystem: "docker"
+    directory: "/8.0/alpine3.16/fpm-nginx"
+    registries:
+      - ghcr
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "hostpapa/eng-enablement"
+  # Maintain dependencies for 8.1
+  - package-ecosystem: "docker"
+    directory: "/8.1/alpine3.18/fpm-nginx"
+    registries:
+      - ghcr
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "hostpapa/eng-enablement"
+  # Maintain dependencies for 8.2
+  - package-ecosystem: "docker"
+    directory: "/8.2/alpine3.18/fpm-nginx"
+    registries:
+      - ghcr
+    schedule:
+      interval: "daily"
+    reviewers:
+      - "hostpapa/eng-enablement"
