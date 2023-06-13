@@ -15,12 +15,9 @@ RUN set -eux; \
         curl \
         ca-certificates \
         supervisor \
-    ;
-
+    ; \
 ### Setup needed PHP dependencies ###
 # Install the PHP extensions we need (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
-RUN set -ex; \
-    \
     apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         freetype-dev \
@@ -56,12 +53,11 @@ RUN set -ex; \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
     )"; \
     apk add --no-network --virtual .wordpress-phpexts-rundeps $runDeps; \
-    apk del --no-network .build-deps
-
+    apk del --no-network .build-deps \
+    ; \
 ### Install Nginx and other dependencies ###
-RUN set -eux \
 # create nginx user/group first, to be consistent throughout docker variants
-    && addgroup -g 101 -S nginx \
+    addgroup -g 101 -S nginx \
     && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \
     && apk add --no-cache \
         nginx \
@@ -93,13 +89,12 @@ RUN set -eux \
     \
 # forward request and error logs to docker log collector
     && ln -sf /dev/stdout /var/log/nginx/access.log \
-    && ln -sf /dev/stderr /var/log/nginx/error.log
-
+    && ln -sf /dev/stderr /var/log/nginx/error.log \
+    ; \
 # Required fcgi for php-fpm-healthcheck
-RUN apk add --no-cache fcgi
-
+    apk add --no-cache fcgi \
 # Assign Host User
-RUN apk add --no-cache shadow \
+    shadow \
     && usermod -u 1000 www-data \
     && groupmod -g 1000 www-data
 
