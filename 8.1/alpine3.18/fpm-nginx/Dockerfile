@@ -1,59 +1,35 @@
-##
-# __        __   _       ___
-# \ \      / /__| |__   |_ _|_ __ ___   __ _  __ _  ___
-#  \ \ /\ / / _ \ '_ \   | || '_ ` _ \ / _` |/ _` |/ _ \
-#   \ V  V /  __/ |_) |  | || | | | | | (_| | (_| |  __/
-#    \_/\_/ \___|_.__/  |___|_| |_| |_|\__,_|\__, |\___|
-#                                            |___/
 #
-# This is the base _Web Image_ which combines FPM and Nginx into a single
-# image, starting them up at the end with Supervisord. By having a single
-# container, we can simplify deployments. For example, in Kubernetes, we don't
-# have to worry about shared volumes and init containers.
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "apply-templates.sh"
 #
-# The Nginx setup within this container is setup to ONLY listen on Port 80
-# (non-ssl) with the expectation that SSL is terminated at a load balancer and
-# then proxied to this container. This allows this container to be simpler and
-# leave SSL creation and termination to the deployment environment. Even in a
-# Kubernetes setup, a Service Mesh SHOULD be used to enforce mTLS encrypting
-# all internal traffic. Even in this scenario, we _still_ only need a container
-# that listed on Port 80.
+# PLEASE DO NOT EDIT IT DIRECTLY.
 #
-# This image _starts off_ with the official PHP FPM image as, between Nginx and
-# FPM, FPM is more complex to setup. The best of both Nginx and FPM containers
-# have been combined into this image from a functionality perspective (nginx
-# templates with envsubst, etc).
-##
-FROM php:8.0-fpm-alpine
+
+FROM php:8.1.19-fpm-alpine3.18
 
 # Persistent dependencies
 RUN set -eux; \
     apk add --no-cache \
 # Ghostscript is required for rendering PDF previews
         ghostscript \
-# Alpine package for "imagemagick" contains ~120 .so files, see: https://github.com/docker-library/wordpress/pull/497
-        # imagemagick \
         tzdata \
         curl \
         ca-certificates \
         supervisor \
-    ;
-
+    ; \
 ### Setup needed PHP dependencies ###
 # Install the PHP extensions we need (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
-RUN set -ex; \
-    \
     apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         freetype-dev \
-        # imagemagick-dev \
+        imagemagick-dev \
         libjpeg-turbo-dev \
         libpng-dev \
         libwebp-dev \
         libzip-dev \
-        php8-pecl-ast \
+        php81-pecl-ast \
         icu-dev \
     ; \
+    pecl install ast imagick; \
     \
     docker-php-ext-configure gd \
         --with-freetype \
@@ -68,16 +44,8 @@ RUN set -ex; \
         zip \
         intl \
     ; \
-    docker-php-ext-enable opcache; \
-    # pecl install ast; \
-    # docker-php-ext-enable ast; \
-# WARNING: imagick is likely not supported on Alpine: https://github.com/Imagick/imagick/issues/328
-# https://pecl.php.net/package/imagick
-    # pecl install imagick-3.5.0; \
-    # docker-php-ext-enable imagick; \
-# Remove temp PECL folder
-    # rm -r /tmp/pear; \
-    \
+    docker-php-ext-enable opcache imagick ast; \
+    rm -r /tmp/pear; \
     runDeps="$( \
         scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
             | tr ',' '\n' \
@@ -85,18 +53,14 @@ RUN set -ex; \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
     )"; \
     apk add --no-network --virtual .wordpress-phpexts-rundeps $runDeps; \
-    apk del --no-network .build-deps
-
-
+    apk del --no-network .build-deps \
+    ; \
 ### Install Nginx and other dependencies ###
-RUN set -eux \
 # create nginx user/group first, to be consistent throughout docker variants
-    && addgroup -g 101 -S nginx \
+    addgroup -g 101 -S nginx \
     && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \
     && apk add --no-cache \
         nginx \
-# Move http.d to conf.d to match other Nginx setups and scripts
-    && mv /etc/nginx/http.d /etc/nginx/conf.d \
 # Replace references to http.d with conf.d in main Nginx config installed by default
 # This allows this image to function on its own even though most will override nginx.conf entirely
     && sed -i 's/http.d/conf.d/g' /etc/nginx/nginx.conf \
@@ -125,10 +89,14 @@ RUN set -eux \
     \
 # forward request and error logs to docker log collector
     && ln -sf /dev/stdout /var/log/nginx/access.log \
-    && ln -sf /dev/stderr /var/log/nginx/error.log
-
+    && ln -sf /dev/stderr /var/log/nginx/error.log \
+    ; \
 # Required fcgi for php-fpm-healthcheck
-RUN apk add --no-cache fcgi
+    apk add --no-cache fcgi \
+# Assign Host User
+    shadow \
+    && usermod -u 1000 www-data \
+    && groupmod -g 1000 www-data
 
 # Copy the healthcheck
 COPY ./healthcheck/php-fpm-healthcheck /usr/local/bin/
