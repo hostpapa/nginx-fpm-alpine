@@ -20,11 +20,8 @@ jobs:
     name: Check For Uncomitted Changes
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      packages: write
-      # This is used to complete the identity challenge
-      # with sigstore/fulcio when running outside of PRs.
-      id-token: write
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
       - name: Apply Templates
