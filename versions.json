@@ -3,18 +3,18 @@
         "variants": [
             "alpine3.16/fpm-nginx"
         ],
-        "version": "8.0.28"
+        "version": "8.0"
     },
     "8.1": {
         "variants": [
             "alpine3.18/fpm-nginx"
         ],
-        "version": "8.1.19"
+        "version": "8.1"
     },
     "8.2": {
         "variants": [
             "alpine3.18/fpm-nginx"
         ],
-        "version": "8.2.6"
+        "version": "8.2"
     }
 }
