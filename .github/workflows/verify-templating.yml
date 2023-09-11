@@ -20,7 +20,7 @@ jobs:
     name: Apply Templates
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Apply Templates
         run: ./apply-templates.sh
   check-git-status:
@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Check Git Status
         run: |
           status="$(git status --short)"
