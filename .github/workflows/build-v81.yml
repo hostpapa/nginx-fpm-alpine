@@ -18,7 +18,8 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  docker:
+  build-image:
+    name: Build PHP V8.1 Image
     runs-on: ubuntu-latest
     permissions:
       contents: read
