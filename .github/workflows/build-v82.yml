@@ -88,7 +88,7 @@ jobs:
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09
         with:
           context: ./8.2/alpine3.18/fpm-nginx/
-          platforms: linux/amd64,linux/arm/v7,linux/arm/v8
+          platforms: linux/amd64,linux/arm/v8
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
