@@ -52,6 +52,8 @@ RUN set -eux; \
             | sort -u \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
     )"; \
+    # Setup Mail client
+    apk add msmtp; \
     apk add --no-network --virtual .wordpress-phpexts-rundeps $runDeps; \
     apk del --no-network .build-deps \
     ; \
