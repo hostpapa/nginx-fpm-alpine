@@ -15,6 +15,7 @@ RUN set -eux; \
         curl \
         ca-certificates \
         supervisor \
+        msmtp \
     ; \
 ### Setup needed PHP dependencies ###
 # Install the PHP extensions we need (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
