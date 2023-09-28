@@ -15,6 +15,7 @@ RUN set -eux; \
         curl \
         ca-certificates \
         supervisor \
+        msmtp \
     ; \
 ### Setup needed PHP dependencies ###
 # Install the PHP extensions we need (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
@@ -52,8 +53,6 @@ RUN set -eux; \
             | sort -u \
             | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
     )"; \
-    # Setup Mail client
-    apk add msmtp; \
     apk add --no-network --virtual .wordpress-phpexts-rundeps $runDeps; \
     apk del --no-network .build-deps \
     ; \
