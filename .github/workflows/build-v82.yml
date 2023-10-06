@@ -2,7 +2,7 @@ name: Build PHP V8.2
 
 on:
   push:
-    branches: [ main ]
+    branches: [ pd-2425-switch-from-armv8-to-arm64-arch ]
 
 # Ensure existing runs are cancelled automatically if still in progress when a
 # new one commit is pushed to this pull request. This is scoped to the branch
