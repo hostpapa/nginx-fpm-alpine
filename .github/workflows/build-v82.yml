@@ -85,7 +85,7 @@ jobs:
       - name: Build Development Web image & Push
         id: build-web-image
         if: ${{ steps.image_exists.outcome == 'failure' }}
-        uses: docker/build-push-action@2cdde995de11925a030ce8070c3d77a52ffcf1c0
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25
         with:
           context: ./8.2/alpine3.18/fpm-nginx/
           platforms: linux/amd64,linux/arm64
