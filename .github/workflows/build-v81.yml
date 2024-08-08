@@ -20,7 +20,7 @@ env:
 jobs:
   build-image:
     name: Build PHP V8.1 Image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-ubuntu-latest-small
     permissions:
       contents: read
       packages: write
