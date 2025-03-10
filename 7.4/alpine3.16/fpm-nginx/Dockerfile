@@ -19,7 +19,7 @@ RUN set -eux; \
     ; \
 ### Setup needed PHP dependencies ###
 # Install the PHP extensions we need (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
-    apk add --no-cache --virtual .build-deps \
+   apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         freetype-dev \
         imagemagick-dev \
@@ -28,6 +28,7 @@ RUN set -eux; \
         libwebp-dev \
         libzip-dev \
         icu-dev \
+        libxml2-dev \
     ; \
     pecl install ast imagick; \
     \
@@ -41,8 +42,12 @@ RUN set -eux; \
         exif \
         gd \
         mysqli \
+        bz2 \
+        pcntl \
+        pdo_mysql \
         zip \
         intl \
+        soap \
     ; \
     docker-php-ext-enable opcache imagick ast; \
     rm -r /tmp/pear; \
