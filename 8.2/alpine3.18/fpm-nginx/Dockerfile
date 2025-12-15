@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM php:8.2.19-fpm-alpine3.18
+FROM php:8.2-fpm-alpine3.18
 
 # Persistent dependencies
 RUN set -eux; \
@@ -27,10 +27,15 @@ RUN set -eux; \
         libpng-dev \
         libwebp-dev \
         libzip-dev \
-        php82-pecl-ast \
         icu-dev \
     ; \
-    pecl install ast imagick; \
+    astPkg="php82-pecl-ast"; \
+    if apk info -e "$astPkg" >/dev/null 2>&1; then \
+        apk add --no-cache "$astPkg"; \
+    else \
+        pecl install ast; \
+    fi; \
+    pecl install imagick; \
     \
     docker-php-ext-configure gd \
         --with-freetype \
@@ -62,6 +67,7 @@ RUN set -eux; \
     && adduser -S -D -H -u 101 -h /var/cache/nginx -s /sbin/nologin -G nginx -g nginx nginx \
     && apk add --no-cache \
         nginx \
+    && sed -i '/^include \/etc\/nginx\/conf\.d\/\*\.conf;$/d' /etc/nginx/nginx.conf \
 # Move http.d to conf.d to match other Nginx setups and scripts
     && mv /etc/nginx/http.d /etc/nginx/conf.d \
 # Replace references to http.d with conf.d in main Nginx config installed by default

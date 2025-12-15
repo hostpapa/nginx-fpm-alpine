@@ -1,9 +1,11 @@
 # Nginx FPM Alpine Docker Image
 
 Supported Versions:
-- PHP 8.0.24/Nginx 1.22
-- PHP 8.1.19/Nginx 1.24
-- PHP 8.2.6/Nginx 1.24
+- PHP 8.0.30/Nginx 1.22
+- PHP 8.1.28/Nginx 1.24
+- PHP 8.2.19/Nginx 1.24
+- PHP 8.3.7/Nginx 1.24
+- PHP 8.4.15/Nginx 1.28
 
 This image is best used in environments where having a **single container** that
 can serve requests is preferred over a multi-container setup. The focus of this

@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM php:8.1-fpm-alpine3.18
+FROM php:8.3-fpm-alpine3.18
 
 # Persistent dependencies
 RUN set -eux; \
@@ -29,7 +29,7 @@ RUN set -eux; \
         libzip-dev \
         icu-dev \
     ; \
-    astPkg="php81-pecl-ast"; \
+    astPkg="php83-pecl-ast"; \
     if apk info -e "$astPkg" >/dev/null 2>&1; then \
         apk add --no-cache "$astPkg"; \
     else \

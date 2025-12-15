@@ -2,7 +2,7 @@ name: Build PHP V8.1
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 # Ensure existing runs are cancelled automatically if still in progress when a
 # new one commit is pushed to this pull request. This is scoped to the branch
