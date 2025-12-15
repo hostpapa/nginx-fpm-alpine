@@ -19,7 +19,7 @@ env:
 
 jobs:
   build-image:
-    name: Build PHP V8.4 Image
+    name: Build PHP V8.5 Image
     runs-on: ubuntu-latest
     permissions:
       contents: read
