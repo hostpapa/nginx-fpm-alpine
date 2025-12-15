@@ -9,7 +9,7 @@ on:
 # and workflow name so that we can run multiple workflows on a branch but
 # ensure they're exclusive with regards to concurrency.
 concurrency:
-  group: ${{ github.head_ref }}-${{ github.workflow }}
+  group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
 env:
