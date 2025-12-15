@@ -54,7 +54,7 @@ for version; do
 
 		alpineVer="${suite#alpine}" # "3.12", etc
 		if [ "$suite" != "$alpineVer" ]; then
-			from="php:$phpVersion.1-fpm-alpine$alpineVer"
+			from="php:$phpVersion-fpm-alpine$alpineVer"
 		fi
 		export from alpineVer
 

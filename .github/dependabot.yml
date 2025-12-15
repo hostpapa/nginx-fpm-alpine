@@ -40,3 +40,25 @@ updates:
         update-types: ["version-update:semver-major", "version-update:semver-minor"]
     reviewers:
       - "hostpapa/eng-enablement"
+  # Maintain dependencies for 8.3
+  - package-ecosystem: "docker"
+    directory: "/8.3/alpine3.18/fpm-nginx"
+    schedule:
+      interval: "daily"
+    ignore:
+      # For all images, ignore all major updates
+      - dependency-name: "php"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+    reviewers:
+      - "hostpapa/eng-enablement"
+  # Maintain dependencies for 8.4
+  - package-ecosystem: "docker"
+    directory: "/8.4/alpine3.23/fpm-nginx"
+    schedule:
+      interval: "daily"
+    ignore:
+      # For all images, ignore all major updates
+      - dependency-name: "php"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+    reviewers:
+      - "hostpapa/eng-enablement"
