@@ -50,7 +50,20 @@ RUN set -eux; \
         zip \
         intl \
     ; \
-    docker-php-ext-enable opcache imagick ast; \
+    # OPcache (version-safe): built-in vs shared vs missing
+    if php -m | grep -qi '^Zend OPcache$'; then \
+      echo "OPcache already built-in; skipping enable/install"; \
+    else \
+      extDir="$(php -r 'echo ini_get("extension_dir");')"; \
+      if [ -f "${extDir}/opcache.so" ]; then \
+        docker-php-ext-enable opcache; \
+      else \
+        docker-php-ext-install opcache; \
+        docker-php-ext-enable opcache; \
+      fi; \
+    fi; \
+    \
+    docker-php-ext-enable imagick ast; \
     rm -r /tmp/pear; \
     runDeps="$( \
         scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \

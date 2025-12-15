@@ -6,6 +6,7 @@ Supported Versions:
 - PHP 8.2.19/Nginx 1.24
 - PHP 8.3.7/Nginx 1.24
 - PHP 8.4.15/Nginx 1.28
+- PHP 8.5.0/Nginx 1.28
 
 This image is best used in environments where having a **single container** that
 can serve requests is preferred over a multi-container setup. The focus of this
