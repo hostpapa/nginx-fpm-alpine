@@ -57,11 +57,11 @@ jobs:
       # Extract the current version of PHP in Dockerfile
       - name: Extract Current Version
         run: |
-          FILE_VER_STRING="$(sed -n '7p' ./8.5/alpine3.23/fpm-nginx/Dockerfile)"
-          VER_TRIM_START="$(printf '%s\n' "$FILE_VER_STRING" | cut -d' ' -f2)"
-          VER_TRIM_END="$(printf '%s\n' "$VER_TRIM_START" | cut -d'-' -f1)"
-          VER_REMOVE_COLON="${VER_TRIM_END#:}"
-          echo "CURRENT_VERSION=$VER_REMOVE_COLON" >> "$GITHUB_ENV"
+          FILE_VER_STRING=$(sed -n '7p' "./8.5/alpine3.23/fpm-nginx/Dockerfile")
+          VER_TRIM_START=$(echo "$FILE_VER_STRING" | cut -d' ' -f2)
+          VER_TRIM_END=$(echo "$VER_TRIM_START" | cut -d'-' -f1)
+          VER_REMOVE_COLON="${VER_TRIM_END//:}"
+          echo "CURRENT_VERSION=$VER_REMOVE_COLON" >> $GITHUB_ENV
 
       # Does the Image exist
       - name: Does the image exist?
