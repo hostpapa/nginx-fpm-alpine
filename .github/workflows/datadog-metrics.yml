@@ -1,0 +1,26 @@
+name: Datadog Metrics
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  workflow_run:
+    workflows:
+      - '**'
+      - '!Datadog Metrics'
+    types:
+      - completed
+
+jobs:
+  send-metrics:
+    runs-on: self-hosted-ubuntu-latest-small
+    timeout-minutes: 10
+    steps:
+      - uses: int128/datadog-actions-metrics@v1
+        with:
+          # create an API key in https://docs.datadoghq.com/account_management/api-app-keys/
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          collect-job-metrics: true
+          collect-step-metrics: true
